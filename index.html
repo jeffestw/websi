@@ -1,1223 +1,1349 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <title>Karmix Store | Minecraft Sunucusu</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description"
-        content="Karmix para birimi ve VIP paketlerini güvenle satın alabileceğiniz resmi mağaza." />
-
-    <!-- Basit, güvenli CSS (inline script yok, style içinde sadece CSS) -->
-    <style>
-        :root {
-            --bg-main: #050505;
-            --bg-alt: #111111;
-            --bg-card: #141414;
-            --text-main: #f5f5f5;
-            --text-muted: #aaaaaa;
-            --accent: #ffffff;
-            --border-soft: #2a2a2a;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            background: var(--bg-main);
-            color: var(--text-main);
-            line-height: 1.5;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        img {
-            max-width: 100%;
-            display: block;
-        }
-
-        /* HEADER / NAVBAR */
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            background: rgba(5, 5, 5, 0.95);
-            backdrop-filter: blur(8px);
-            border-bottom: 1px solid var(--border-soft);
-        }
-
-        .nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0.75rem 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-        }
-
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .logo {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid var(--accent);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 0.9rem;
-        }
-
-        .brand-text {
-            display: flex;
-            flex-direction: column;
-            gap: 0.1rem;
-        }
-
-        .brand-text span:first-child {
-            font-size: 0.95rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-        }
-
-        .brand-text span:last-child {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            font-size: 0.9rem;
-        }
-
-        .nav-links a {
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--text-muted);
-        }
-
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: var(--accent);
-        }
-
-        .nav-cta {
-            padding: 0.55rem 1.3rem;
-            border-radius: 999px;
-            border: 1px solid var(--accent);
-            background: transparent;
-            font-size: 0.75rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            cursor: pointer;
-        }
-
-        .nav-cta:hover {
-            background: var(--accent);
-            color: #000;
-        }
-
-        .nav-toggle {
-            display: none;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            width: 32px;
-            height: 32px;
-        }
-
-        .nav-toggle span,
-        .nav-toggle span::before,
-        .nav-toggle span::after {
-            display: block;
-            width: 100%;
-            height: 2px;
-            background: var(--text-main);
-            border-radius: 999px;
-            position: relative;
-        }
-
-        .nav-toggle span::before,
-        .nav-toggle span::after {
-            content: "";
-            position: absolute;
-            left: 0;
-        }
-
-        .nav-toggle span::before {
-            top: -7px;
-        }
-
-        .nav-toggle span::after {
-            top: 7px;
-        }
-
-        /* HERO */
-        .hero {
-            position: relative;
-            overflow: hidden;
-            background: radial-gradient(circle at top, #333 0, #050505 55%);
-        }
-
-        .hero-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 3.5rem 1.5rem 4.5rem;
-            display: grid;
-            grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .hero-karmix-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            padding: 0.35rem 0.9rem;
-            border-radius: 999px;
-            border: 1px solid var(--border-soft);
-            background: rgba(0, 0, 0, 0.6);
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.16em;
-        }
-
-        .hero-karmix-dot {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            background: var(--accent);
-        }
-
-        .hero-title {
-            margin-top: 1.4rem;
-            font-size: clamp(2.3rem, 4vw, 3.2rem);
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-        }
-
-        .hero-sub {
-            margin-top: 1rem;
-            max-width: 440px;
-            color: var(--text-muted);
-            font-size: 0.92rem;
-        }
-
-        .hero-meta {
-            margin-top: 1.6rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.25rem;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--text-muted);
-        }
-
-        .hero-meta strong {
-            color: var(--accent);
-        }
-
-        .hero-actions {
-            margin-top: 2rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .btn-primary,
-        .btn-ghost {
-            border-radius: 999px;
-            padding: 0.9rem 1.8rem;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.14em;
-            cursor: pointer;
-            border: 1px solid var(--accent);
-        }
-
-        .btn-primary {
-            background: var(--accent);
-            color: #000;
-        }
-
-        .btn-primary:hover {
-            opacity: 0.9;
-        }
-
-        .btn-ghost {
-            background: transparent;
-            color: var(--accent);
-        }
-
-        .btn-ghost:hover {
-            background: #ffffff0a;
-        }
-
-        .hero-disclaimer {
-            margin-top: 0.9rem;
-            font-size: 0.72rem;
-            color: var(--text-muted);
-        }
-
-        .hero-image-wrapper {
-            position: relative;
-        }
-
-        .hero-image-main {
-            border-radius: 24px;
-            overflow: hidden;
-            border: 1px solid var(--border-soft);
-            box-shadow: 0 22px 60px rgba(0, 0, 0, 0.85);
-        }
-
-        .hero-image-main img {
-            width: 100%;
-            height: auto;
-            object-fit: cover;
-        }
-
-        .hero-image-tag {
-            position: absolute;
-            bottom: -14px;
-            left: 12%;
-            padding: 0.7rem 1.1rem;
-            border-radius: 999px;
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid var(--border-soft);
-            font-size: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .hero-image-tag span:first-child {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            border: 1px solid var(--accent);
-        }
-
-        /* GENERIC SECTION */
-        section {
-            border-top: 1px solid var(--border-soft);
-        }
-
-        .section-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 3rem 1.5rem 3.5rem;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .section-title-block {
-            display: flex;
-            flex-direction: column;
-            gap: 0.35rem;
-        }
-
-        .section-kicker {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--text-muted);
-        }
-
-        .section-title {
-            font-size: 1.4rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-        }
-
-        .section-subtitle {
-            max-width: 360px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        /* PACKAGES GRID */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 1.5rem;
-        }
-
-        .card {
-            background: var(--bg-card);
-            border-radius: 20px;
-            border: 1px solid var(--border-soft);
-            padding: 1.4rem 1.3rem 1.6rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-        }
-
-        .card img {
-            border-radius: 14px;
-            border: 1px solid #222;
-            margin-bottom: 0.9rem;
-        }
-
-        .card-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.16em;
-            color: var(--text-muted);
-        }
-
-        .card-title-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            gap: 0.5rem;
-        }
-
-        .card-title {
-            font-size: 1rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-        }
-
-        .card-price {
-            font-size: 0.9rem;
-            color: var(--accent);
-        }
-
-        .card-desc {
-            font-size: 0.82rem;
-            color: var(--text-muted);
-        }
-
-        .card-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.72rem;
-            color: var(--text-muted);
-        }
-
-        .card-actions {
-            margin-top: 1rem;
-        }
-
-        .card button {
-            width: 100%;
-            border-radius: 999px;
-            padding: 0.7rem 1rem;
-            border: 1px solid var(--accent);
-            background: transparent;
-            color: var(--accent);
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            cursor: pointer;
-        }
-
-        .card button:hover {
-            background: var(--accent);
-            color: #000;
-        }
-
-        /* FEATURE ROW (NASIL ÇALIŞIR) */
-        .feature-row {
-            display: grid;
-            grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-            gap: 2.5rem;
-            align-items: center;
-        }
-
-        .feature-list {
-            display: grid;
-            gap: 1rem;
-        }
-
-        .feature-item {
-            padding-bottom: 0.9rem;
-            border-bottom: 1px solid var(--border-soft);
-        }
-
-        .feature-item:last-child {
-            border-bottom: none;
-        }
-
-        .feature-item-title {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.14em;
-        }
-
-        .feature-item-desc {
-            margin-top: 0.3rem;
-            font-size: 0.82rem;
-            color: var(--text-muted);
-        }
-
-        /* FAQ */
-        .faq {
-            display: grid;
-            grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-            gap: 2rem;
-        }
-
-        .faq-list {
-            display: grid;
-            gap: 1rem;
-        }
-
-        .faq-item {
-            border-radius: 16px;
-            border: 1px solid var(--border-soft);
-            padding: 0.9rem 1rem;
-        }
-
-        .faq-q {
-            font-size: 0.85rem;
-        }
-
-        .faq-a {
-            margin-top: 0.35rem;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        /* CONTACT / SUPPORT FORM */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-            gap: 2rem;
-        }
-
-        .contact-info {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            display: grid;
-            gap: 0.7rem;
-        }
-
-        .contact-card {
-            border-radius: 20px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-soft);
-            padding: 1.3rem 1.2rem 1.4rem;
-        }
-
-        .contact-card h3 {
-            font-size: 0.95rem;
-            text-transform: uppercase;
-            letter-spacing: 0.16em;
-            margin-bottom: 0.7rem;
-        }
-
-        .contact-card p {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 0.8rem;
-        }
-
-        .contact-field-group {
-            display: grid;
-            gap: 0.7rem;
-        }
-
-        label {
-            font-size: 0.78rem;
-            text-transform: uppercase;
-            letter-spacing: 0.16em;
-            color: var(--text-muted);
-        }
-
-        input,
-        textarea,
-        select {
-            width: 100%;
-            border-radius: 999px;
-            padding: 0.7rem 0.9rem;
-            border: 1px solid #2b2b2b;
-            background: #050505;
-            color: var(--text-main);
-            font-size: 0.85rem;
-            outline: none;
-        }
-
-        textarea {
-            border-radius: 14px;
-            min-height: 90px;
-            resize: vertical;
-        }
-
-        input:focus,
-        textarea:focus,
-        select:focus {
-            border-color: var(--accent);
-        }
-
-        .contact-submit {
-            margin-top: 1rem;
-        }
-
-        .contact-submit button {
-            width: 100%;
-            border-radius: 999px;
-            padding: 0.8rem 1rem;
-            border: 1px solid var(--accent);
-            background: var(--accent);
-            color: #000;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.16em;
-            cursor: pointer;
-        }
-
-        .contact-submit button:hover {
-            opacity: 0.9;
-        }
-
-        .contact-note {
-            margin-top: 0.6rem;
-            font-size: 0.72rem;
-            color: var(--text-muted);
-        }
-
-        /* FOOTER */
-        footer {
-            border-top: 1px solid var(--border-soft);
-            padding: 1.5rem;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .footer-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 1.2rem;
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 900px) {
-            .hero-inner {
-                grid-template-columns: 1fr;
-            }
-
-            .hero-image-wrapper {
-                order: -1;
-            }
-
-            .grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-
-            .feature-row,
-            .faq,
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 720px) {
-
-            .nav-links,
-            .nav-cta {
-                display: none;
-            }
-
-            .nav-toggle {
-                display: block;
-            }
-
-            .nav-links-mobile {
-                display: none;
-                flex-direction: column;
-                padding: 0 1.5rem 1rem;
-                border-top: 1px solid var(--border-soft);
-                background: #050505;
-            }
-
-            .nav-links-mobile a {
-                padding: 0.6rem 0;
-                font-size: 0.85rem;
-                text-transform: uppercase;
-                letter-spacing: 0.1em;
-                color: var(--text-muted);
-            }
-
-            .nav-links-mobile a:hover {
-                color: var(--accent);
-            }
-
-            .grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>ES Special – Video Zoom & Enhancer Extensions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="ES Special builds futuristic Chrome extensions for video zoom, enhancement and extension management." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #020617;
+      --glass-bg: rgba(15, 23, 42, 0.35);
+      --glass-strong: rgba(15, 23, 42, 0.75);
+      --border: rgba(148, 163, 184, 0.5);
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.2);
+      --accent-strong: #0ea5e9;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --danger: #fb7185;
+      --radius-lg: 24px;
+      --radius-xl: 30px;
+      --shadow-soft: 0 24px 60px rgba(15, 23, 42, 0.9);
+      --transition: 200ms ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+      color: var(--text);
+      background: radial-gradient(circle at 10% 20%, #0f172a 0, #020617 35%, #000 100%);
+      -webkit-font-smoothing: antialiased;
+      scroll-behavior: smooth;
+    }
+
+    /* Futuristic background */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 0% 20%, rgba(56, 189, 248, 0.22) 0, transparent 55%),
+        radial-gradient(circle at 100% 80%, rgba(236, 72, 153, 0.24) 0, transparent 55%),
+        radial-gradient(circle at 50% 110%, rgba(94, 234, 212, 0.2) 0, transparent 55%);
+      opacity: 0.8;
+      z-index: -2;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: linear-gradient(135deg,
+          rgba(15, 23, 42, 0.8),
+          rgba(15, 23, 42, 0.4));
+      mix-blend-mode: soft-light;
+      z-index: -3;
+    }
+
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 20px 18px 48px;
+    }
+
+    /* HEADER */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      margin: 0 -18px 24px;
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      backdrop-filter: blur(24px);
+      background: linear-gradient(to right,
+          rgba(15, 23, 42, 0.9),
+          rgba(15, 23, 42, 0.65));
+      border-bottom: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 16px 30px rgba(15, 23, 42, 0.9);
+      background: radial-gradient(circle at 0 0, rgba(251, 191, 36, 0.6), transparent 60%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .brand-text-main {
+      font-weight: 600;
+      font-size: 18px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand-text-sub {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .nav-link {
+      font-size: 13px;
+      color: var(--muted);
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .nav-link:hover {
+      color: var(--text);
+      border-color: rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 13px;
+      color: #020617;
+      background: linear-gradient(135deg, #38bdf8, #a855f7);
+      box-shadow: 0 18px 40px rgba(56, 189, 248, 0.75);
+      border: 1px solid rgba(248, 250, 252, 0.12);
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .nav-cta span {
+      font-size: 15px;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 22px 52px rgba(56, 189, 248, 0.9);
+      filter: brightness(1.02);
+    }
+
+    /* HERO */
+
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      align-items: center;
+      gap: 32px;
+      margin-top: 10px;
+      margin-bottom: 40px;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.7);
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      margin-bottom: 14px;
+      backdrop-filter: blur(18px);
+    }
+
+    .hero-tag-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #f9fafb 0, #22c55e 50%, #166534 100%);
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
+    }
+
+    h1 {
+      font-size: clamp(30px, 4.2vw, 40px);
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+
+    h1 span {
+      background: linear-gradient(to right, #38bdf8, #a855f7, #22c55e);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 14px;
+      max-width: 520px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 22px;
+    }
+
+    .hero-subtitle strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .hero-highlights {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.8);
+      font-size: 11px;
+      color: var(--muted);
+      backdrop-filter: blur(16px);
+    }
+
+    .hero-pill-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 20% 0, #f9fafb 0, #38bdf8 40%, #0f172a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #020617;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+      color: #020617;
+      box-shadow: 0 18px 40px rgba(56, 189, 248, 0.75);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 22px 50px rgba(56, 189, 248, 0.9);
+    }
+
+    .btn-ghost {
+      background: rgba(15, 23, 42, 0.85);
+      border-color: rgba(148, 163, 184, 0.7);
+      color: var(--text);
+      backdrop-filter: blur(18px);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      background: rgba(15, 23, 42, 1);
+    }
+
+    .hero-note {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .hero-note span {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #f97316 0, #fb7185 50%, #7c2d12 100%);
+      box-shadow: 0 0 10px rgba(248, 113, 113, 0.9);
+    }
+
+    /* HERO PREVIEW – glass card */
+
+    .hero-preview {
+      position: relative;
+    }
+
+    .preview-card {
+      position: relative;
+      border-radius: var(--radius-xl);
+      background: var(--glass-bg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 18px 18px 20px;
+      overflow: hidden;
+      backdrop-filter: blur(26px);
+    }
+
+    .preview-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.26) 0, transparent 52%),
+        radial-gradient(circle at 100% 100%, rgba(168, 85, 247, 0.32) 0, transparent 55%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .preview-inner {
+      position: relative;
+    }
+
+    .preview-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .preview-title {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-size: 13px;
+    }
+
+    .preview-title span:first-child {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    .preview-title span:last-child {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .preview-badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 6px;
+    }
+
+    .badge {
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(14px);
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #38bdf8;
+      box-shadow: 0 0 9px rgba(56, 189, 248, 0.9);
+    }
+
+    .badge-danger {
+      border-color: rgba(248, 113, 113, 0.8);
+      color: #fecaca;
+    }
+
+    .badge-danger .badge-dot {
+      background: var(--danger);
+      box-shadow: 0 0 8px rgba(248, 113, 113, 0.9);
+    }
+
+    .preview-body {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 12px;
+      padding: 12px;
+      border-radius: 18px;
+      background: linear-gradient(145deg,
+          rgba(15, 23, 42, 0.9),
+          rgba(15, 23, 42, 0.7));
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      margin-bottom: 14px;
+    }
+
+    .preview-video {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      background-image: linear-gradient(135deg,
+          #020617 0,
+          #0f172a 30%,
+          #1e293b 60%,
+          #020617 100%);
+      min-height: 130px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .preview-video::before {
+      content: "";
+      position: absolute;
+      inset: 8%;
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background-image:
+        linear-gradient(135deg, rgba(56, 189, 248, 0.6), transparent 60%),
+        radial-gradient(circle at 80% 110%, rgba(236, 72, 153, 0.5), transparent 55%);
+      mix-blend-mode: soft-light;
+      opacity: 0.5;
+    }
+
+    .preview-video-label {
+      position: absolute;
+      left: 10px;
+      bottom: 9px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      font-size: 11px;
+      backdrop-filter: blur(12px);
+    }
+
+    .preview-sliders {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      justify-content: center;
+    }
+
+    .slider-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .slider-row-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .slider-row-label span:last-child {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .fake-slider {
+      position: relative;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 1);
+      overflow: hidden;
+      border: 1px solid rgba(30, 64, 175, 0.8);
+    }
+
+    .fake-slider-fill {
+      position: absolute;
+      inset: 0;
+      width: 70%;
+      border-radius: inherit;
+      background: linear-gradient(to right, #38bdf8, #a855f7);
+    }
+
+    .fake-slider-fill.alt {
+      width: 45%;
+      background: linear-gradient(to right, #22c55e, #38bdf8);
+    }
+
+    .fake-slider-fill.warm {
+      width: 60%;
+      background: linear-gradient(to right, #fb7185, #f97316);
+    }
+
+    .preview-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .preview-footer-left {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .preview-footer-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 8px rgba(34, 197, 94, 0.9);
+    }
+
+    .preview-footer-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .mini-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(18px);
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .mini-btn strong {
+      color: var(--text);
+    }
+
+    .mini-btn-main {
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+      color: #020617;
+      border-color: rgba(56, 189, 248, 0.9);
+      box-shadow: 0 14px 32px rgba(56, 189, 248, 0.8);
+    }
+
+    .mini-btn-main strong {
+      color: #020617;
+    }
+
+    /* SECTIONS GENERAL */
+
+    section {
+      margin-bottom: 40px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .section-title {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .section-title span:first-child {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+    }
+
+    .section-title span:last-child {
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .section-desc {
+      font-size: 12px;
+      color: var(--muted);
+      max-width: 360px;
+    }
+
+    /* EXTENSION CARDS */
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      background: var(--glass-bg);
+      border: 1px solid var(--border);
+      padding: 15px 14px 16px;
+      backdrop-filter: blur(24px);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.85);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.26) 0, transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(236, 72, 153, 0.24) 0, transparent 55%);
+      opacity: 0;
+      transition: opacity 220ms ease;
+      pointer-events: none;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(56, 189, 248, 0.8);
+      box-shadow: 0 24px 56px rgba(15, 23, 42, 0.95);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .card-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 14px;
+      background: radial-gradient(circle at 15% 0, #f9fafb 0, #38bdf8 35%, #0f172a 100%);
+      box-shadow: 0 16px 28px rgba(15, 23, 42, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .card-sub {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .card-body {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 10px;
+      line-height: 1.55;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .tag {
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--muted);
+      backdrop-filter: blur(14px);
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .card-footer span {
+      font-size: 10px;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .card-footer span::before {
+      content: "★";
+      font-size: 11px;
+      color: #facc15;
+    }
+
+    .card-footer a {
+      font-size: 11px;
+      text-decoration: none;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: var(--transition);
+      backdrop-filter: blur(18px);
+    }
+
+    .card-footer a:hover {
+      border-color: var(--accent);
+      color: var(--accent-strong);
+      background: rgba(15, 23, 42, 1);
+    }
+
+    /* ABOUT / CONTACT */
+
+    .about-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    .about-text {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .about-text p+p {
+      margin-top: 10px;
+    }
+
+    .about-highlight {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+      gap: 10px;
+    }
+
+    .about-highlight-box {
+      border-radius: 16px;
+      border: 1px dashed rgba(148, 163, 184, 0.7);
+      padding: 10px;
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(22px);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .about-highlight-box strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 12px;
+      color: var(--text);
+    }
+
+    .about-card {
+      border-radius: var(--radius-lg);
+      background: var(--glass-strong);
+      border: 1px solid var(--border);
+      padding: 14px 12px;
+      box-shadow: 0 18px 42px rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(26px);
+      font-size: 12px;
+      color: var(--muted);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-card::before {
+      content: "";
+      position: absolute;
+      inset: -30%;
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.22) 0, transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(96, 165, 250, 0.3) 0, transparent 60%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .about-card-inner {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .about-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .about-chip {
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--muted);
+      backdrop-filter: blur(18px);
+      text-decoration: none;
+    }
+
+    .about-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .about-line strong {
+      font-size: 12px;
+      color: var(--text);
+    }
+
+    footer {
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    footer a {
+      color: var(--accent-strong);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 880px) {
+      main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-preview {
+        order: -1;
+      }
+
+      header {
+        padding-inline: 14px;
+      }
+
+      .page {
+        padding-inline: 14px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav {
+        justify-content: flex-start;
+      }
+
+      .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .about-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .preview-body {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+  </style>
 </head>
 
 <body>
-    <!-- HEADER -->
+  <div class="page">
     <header>
-        <nav class="nav">
-            <div class="nav-left">
-                <div class="logo">
-                    KM
-                </div>
-                <div class="brand-text">
-                    <span>KARMIX STORE</span>
-                    <span>Minecraft Sunucusu</span>
-                </div>
-            </div>
-
-            <div class="nav-links">
-                <a href="#karmix" class="active">Karmix</a>
-                <a href="#vip">VIP Paketler</a>
-                <a href="#how">Nasıl Çalışır</a>
-                <a href="#support">Destek</a>
-            </div>
-
-            <button class="nav-cta" type="button" data-scroll="#karmix">
-                Satın Al
-            </button>
-
-            <button class="nav-toggle" type="button" aria-label="Menüyü Aç/Kapat">
-                <span></span>
-            </button>
-        </nav>
-        <div class="nav-links-mobile" id="navMobile">
-            <a href="#karmix">Karmix</a>
-            <a href="#vip">VIP Paketler</a>
-            <a href="#how">Nasıl Çalışır</a>
-            <a href="#support">Destek</a>
+      <div class="brand">
+        <div class="brand-logo">
+          <!-- TODO: PASTE YOUR BASE64 IMAGE STRING IN PLACE OF PASTE_BASE64_HERE -->
+          <img
+            src="https://lh3.googleusercontent.com/85fUz1azA96thlxC9KNFfZPa8Y9HZsdWsdRzBoZMXhocXb0anv-nUqLbjwM6Eg8ykqT-6MFXwl6qFy_Mv8WgA6baLQ=s120"
+            alt="ES Special Logo">
         </div>
+        <div>
+          <div class="brand-text-main">ES SPECIAL</div>
+          <div class="brand-text-sub">Chrome Extension Studio</div>
+        </div>
+      </div>
+      <nav>
+        <a class="nav-link" href="#extensions">Extensions</a>
+        <a class="nav-link" href="#about">About</a>
+        <a class="nav-link" href="#contact">Contact</a>
+        <a class="nav-cta"
+          href="https://chromewebstore.google.com/detail/es-video-zoom-enhancer/megmpaemadmdjgjpphjgkfbcfkgimkhh?hl=tr"
+          target="_blank" rel="noreferrer">
+          Add to Chrome
+          <span>↗</span>
+        </a>
+      </nav>
     </header>
 
-    <!-- HERO -->
     <main>
-        <section class="hero">
-            <div class="hero-inner">
-                <div>
-                    <div class="hero-karmix-badge">
-                        <span class="hero-karmix-dot"></span>
-                        <span>Resmi Mağaza</span>
-                        <span>Karmix &amp; VIP</span>
-                    </div>
-
-                    <h1 class="hero-title">
-                        Minecraft sunucunda<br />daha net bir güç.
-                    </h1>
-                    <p class="hero-sub">
-                        Karmix para birimi ve özel VIP paketleri ile
-                        sunucunda öne çık. Tüm işlemler güvenli altyapı,
-                        sunucu taraflı doğrulama ve modern tasarım ile korunur.
-                    </p>
-
-                    <div class="hero-meta">
-                        <span><strong>%100</strong> Sunucu taraflı kontrol</span>
-                        <span><strong>HTTPS</strong> zorunlu erişim</span>
-                        <span><strong>Güvenli</strong> ödeme entegrasyonu</span>
-                    </div>
-
-                    <div class="hero-actions">
-                        <button class="btn-primary" type="button" data-scroll="#karmix">
-                            Karmix Satın Al
-                        </button>
-                        <button class="btn-ghost" type="button" data-scroll="#how">
-                            Nasıl Çalışır?
-                        </button>
-                    </div>
-
-                    <p class="hero-disclaimer">
-                        Tüm ödemeler sunucu tarafında, parametreli sorgular ve ek güvenlik
-                        kontrolleri ile işlenmelidir. Front-end üzerinde hiçbir gizli bilgi
-                        saklanmaz.
-                    </p>
+      <div class="hero-preview">
+        <div class="preview-card">
+          <div class="preview-inner">
+            <div class="preview-header">
+              <div class="preview-title">
+                <span>Live Preview</span>
+                <span>ES Video Zoom &amp; Enhancer</span>
+              </div>
+              <div class="preview-badges">
+                <div class="badge">
+                  <span class="badge-dot"></span>
+                  Real-time controls
                 </div>
-
-                <div class="hero-image-wrapper">
-                    <div class="hero-image-main">
-                        <!-- Buraya kendi Minecraft / sunucu görselini koy -->
-                        <img src="img/hero.jpg" alt="Minecraft sunucusu - Karmix Store görseli" />
-                    </div>
-                    <div class="hero-image-tag">
-                        <span></span>
-                        <span>Online oyuncular: 128</span>
-                    </div>
+                <div class="badge badge-danger">
+                  <span class="badge-dot"></span>
+                  Clean, ad-free panel
                 </div>
+              </div>
             </div>
-        </section>
 
-        <!-- KARMIX PAKETLERİ -->
-        <section id="karmix">
-            <div class="section-inner">
-                <div class="section-header">
-                    <div class="section-title-block">
-                        <div class="section-kicker">Karmix Paketleri</div>
-                        <h2 class="section-title">Dijital para, temiz tasarım</h2>
-                    </div>
-                    <p class="section-subtitle">
-                        Karmix ile oyun içi deneyimini büyüt. Tüm paketlerde sunucu tarafı
-                        doğrulama ve otomatik teslimat prensibi ile çalışmanız tavsiye edilir.
-                    </p>
+            <div class="preview-body">
+              <div class="preview-video">
+                <div class="preview-video-label">Hover &amp; zoom around the frame</div>
+              </div>
+              <div class="preview-sliders">
+                <div class="slider-row">
+                  <div class="slider-row-label">
+                    <span>Zoom level</span>
+                    <span>1.8×</span>
+                  </div>
+                  <div class="fake-slider">
+                    <div class="fake-slider-fill"></div>
+                  </div>
                 </div>
-
-                <div class="grid">
-                    <!-- Paket 1 -->
-                    <article class="card">
-                        <img src="img/package.jpg" alt="Karmix Mini Paket" />
-                        <div class="card-label">Başlangıç</div>
-                        <div class="card-title-row">
-                            <h3 class="card-title">Karmix Mini</h3>
-                            <div class="card-price">₺29,90</div>
-                        </div>
-                        <p class="card-desc">
-                            Küçük ama etkili bir başlangıç. Yeni oyuncular ve düşük
-                            bütçeli yükselme planları için ideal.
-                        </p>
-                        <div class="card-meta">
-                            <span>İçerik: 1.000 Karmix</span>
-                            <span>Teslim: Otomatik</span>
-                        </div>
-                        <div class="card-actions">
-                            <button type="button" data-package-id="karmix_mini">
-                                Satın Alma Formunu Aç
-                            </button>
-                        </div>
-                    </article>
-
-                    <!-- Paket 2 -->
-                    <article class="card">
-                        <img src="img/package.jpg" alt="Karmix Standart Paket" />
-                        <div class="card-label">En çok tercih edilen</div>
-                        <div class="card-title-row">
-                            <h3 class="card-title">Karmix Standart</h3>
-                            <div class="card-price">₺69,90</div>
-                        </div>
-                        <p class="card-desc">
-                            Dengeli güç ve fiyat. Sunucuda aktif oyuncular için en çok
-                            tercih edilen Karmix paketlerinden biri.
-                        </p>
-                        <div class="card-meta">
-                            <span>İçerik: 3.000 Karmix</span>
-                            <span>Bonus: +%5</span>
-                        </div>
-                        <div class="card-actions">
-                            <button type="button" data-package-id="karmix_standard">
-                                Satın Alma Formunu Aç
-                            </button>
-                        </div>
-                    </article>
-
-                    <!-- Paket 3 -->
-                    <article class="card">
-                        <img src="img/package.jpg" alt="Karmix Pro Paket" />
-                        <div class="card-label">Yoğun oyuncular</div>
-                        <div class="card-title-row">
-                            <h3 class="card-title">Karmix Pro</h3>
-                            <div class="card-price">₺129,90</div>
-                        </div>
-                        <p class="card-desc">
-                            Sunucuda hakimiyet kurmak isteyen oyuncular için yüksek hacimli
-                            Karmix paketi.
-                        </p>
-                        <div class="card-meta">
-                            <span>İçerik: 7.000 Karmix</span>
-                            <span>Bonus: +%10</span>
-                        </div>
-                        <div class="card-actions">
-                            <button type="button" data-package-id="karmix_pro">
-                                Satın Alma Formunu Aç
-                            </button>
-                        </div>
-                    </article>
+                <div class="slider-row">
+                  <div class="slider-row-label">
+                    <span>Sharpness</span>
+                    <span>+32</span>
+                  </div>
+                  <div class="fake-slider">
+                    <div class="fake-slider-fill alt"></div>
+                  </div>
                 </div>
+                <div class="slider-row">
+                  <div class="slider-row-label">
+                    <span>Color temperature</span>
+                    <span>Warm</span>
+                  </div>
+                  <div class="fake-slider">
+                    <div class="fake-slider-fill warm"></div>
+                  </div>
+                </div>
+              </div>
             </div>
-        </section>
 
-        <!-- VIP PAKETLER -->
-        <section id="vip">
-            <div class="section-inner">
-                <div class="section-header">
-                    <div class="section-title-block">
-                        <div class="section-kicker">VIP Paketler</div>
-                        <h2 class="section-title">Sunucunun vitrininde ol</h2>
-                    </div>
-                    <p class="section-subtitle">
-                        Çeşitli VIP paketleri ile oyuncularına daha fazla ayrıcalık sun.
-                        Burada yaş sınırı, yetki limitleri ve kuralları server side olarak
-                        mutlaka kontrol et.
-                    </p>
+            <div class="preview-footer">
+              <div class="preview-footer-left">
+                <div class="preview-footer-dot"></div>
+                <span>Mouse-position based zoom &amp; pixel-level detail for any video.</span>
+              </div>
+              <div class="preview-footer-actions">
+                <a class="mini-btn mini-btn-main"
+                  href="https://chromewebstore.google.com/detail/es-video-zoom-enhancer/megmpaemadmdjgjpphjgkfbcfkgimkhh?hl=tr"
+                  target="_blank" rel="noreferrer">
+                  <strong>ES Video Zoom &amp; Enhancer</strong>
+                </a>
+                <div class="mini-btn">
+                  <strong>ES</strong> Extension Manager (coming)
                 </div>
-
-                <div class="grid">
-                    <!-- VIP 1 -->
-                    <article class="card">
-                        <img src="img/vip.jpg" alt="Silver VIP" />
-                        <div class="card-label">VIP</div>
-                        <div class="card-title-row">
-                            <h3 class="card-title">Silver VIP</h3>
-                            <div class="card-price">₺49,90</div>
-                        </div>
-                        <p class="card-desc">
-                            Temel VIP ayrıcalıkları, sıra atlama ve küçük kozmetik
-                            avantajlar içeren giriş seviyesi paket.
-                        </p>
-                        <div class="card-meta">
-                            <span>Süre: 30 gün</span>
-                            <span>Rütbe: Silver</span>
-                        </div>
-                        <div class="card-actions">
-                            <button type="button" data-package-id="vip_silver">
-                                VIP Satın Al
-                            </button>
-                        </div>
-                    </article>
-
-                    <!-- VIP 2 -->
-                    <article class="card">
-                        <img src="img/vip.jpg" alt="Gold VIP" />
-                        <div class="card-label">VIP</div>
-                        <div class="card-title-row">
-                            <h3 class="card-title">Gold VIP</h3>
-                            <div class="card-price">₺89,90</div>
-                        </div>
-                        <p class="card-desc">
-                            Daha yüksek Karmix bonusları, özel komutlar ve chat
-                            efektleriyle ön planda kal.
-                        </p>
-                        <div class="card-meta">
-                            <span>Süre: 30 gün</span>
-                            <span>Rütbe: Gold</span>
-                        </div>
-                        <div class="card-actions">
-                            <button type="button" data-package-id="vip_gold">
-                                VIP Satın Al
-                            </button>
-                        </div>
-                    </article>
-
-                    <!-- VIP 3 -->
-                    <article class="card">
-                        <img src="img/vip.jpg" alt="Legend VIP" />
-                        <div class="card-label">VIP</div>
-                        <div class="card-title-row">
-                            <h3 class="card-title">Legend VIP</h3>
-                            <div class="card-price">₺149,90</div>
-                        </div>
-                        <p class="card-desc">
-                            Sınırlı slot, özel kozmetik setleri ve sunucuda gerçek
-                            bir vitrin konumu. Kurallarını iyi belirle.
-                        </p>
-                        <div class="card-meta">
-                            <span>Süre: 30 gün</span>
-                            <span>Rütbe: Legend</span>
-                        </div>
-                        <div class="card-actions">
-                            <button type="button" data-package-id="vip_legend">
-                                VIP Satın Al
-                            </button>
-                        </div>
-                    </article>
-                </div>
+              </div>
             </div>
-        </section>
+          </div>
+        </div>
+      </div>
 
-        <!-- NASIL ÇALIŞIR -->
-        <section id="how">
-            <div class="section-inner">
-                <div class="section-header">
-                    <div class="section-title-block">
-                        <div class="section-kicker">Nasıl Çalışır?</div>
-                        <h2 class="section-title">Basit akış, güçlü koruma</h2>
-                    </div>
-                    <p class="section-subtitle">
-                        Aşağıdaki adımlar front-end akışını, arka planda ise SQL Injection
-                        ve diğer saldırılara karşı sunucu tarafı güvenlik yapısını temsil eder.
-                    </p>
-                </div>
+      <div>
+        <div class="hero-tag">
+          <div class="hero-tag-dot"></div>
+          <span>Video-centric chrome tools</span>
+        </div>
 
-                <div class="feature-row">
-                    <div class="feature-list">
-                        <div class="feature-item">
-                            <div class="feature-item-title">1. Oyuncu paket seçer</div>
-                            <div class="feature-item-desc">
-                                Oyuncu Karmix veya VIP paketlerinden birini seçer, Minecraft
-                                kullanıcı adını ve iletişim mailini girer. Bu veriler sadece
-                                HTTPS üzerinden sunucuya gönderilir.
-                            </div>
-                        </div>
-                        <div class="feature-item">
-                            <div class="feature-item-title">2. Sunucu taraflı doğrulama</div>
-                            <div class="feature-item-desc">
-                                Sunucunda, gelen istek parametrelerini <strong>asla</strong>
-                                direkt SQL’e basma. Parametreli sorgu kullan ve tüm verileri
-                                type / regex / uzunluk kontrollerinden geçir.
-                            </div>
-                        </div>
-                        <div class="feature-item">
-                            <div class="feature-item-title">3. Ödeme &amp; teslim</div>
-                            <div class="feature-item-desc">
-                                Ödeme sağlayıcına (Iyzico, PayTR, Stripe vs.) giden istekler
-                                backend tarafında yapılır. Ödeme başarılı olduğunda, oyuncuya
-                                Karmix / VIP sunucu tarafından otomatik tanımlanır.
-                            </div>
-                        </div>
-                        <div class="feature-item">
-                            <div class="feature-item-title">4. Kayıt &amp; loglama</div>
-                            <div class="feature-item-desc">
-                                Sipariş, IP ve ilgili temel bilgiler loglanır. Bu loglar
-                                admin panelinde görüntülenebilir ama front-end’e taşınmaz.
-                            </div>
-                        </div>
-                    </div>
+        <h1>
+          Zoom into <span>details</span>, enhance <span>clarity</span>, control your <span>view</span>.
+        </h1>
 
-                    <div>
-                        <!-- Buraya istersen bir şema resmi koy -->
-                        <img src="img/how-it-works.jpg" alt="Karmix akış şeması" />
-                    </div>
-                </div>
-            </div>
-        </section>
+        <p class="hero-subtitle">
+          ES Special builds futuristic Chrome extensions for people who care about every pixel.
+          <strong>Zoom</strong> into specific areas of a video, <strong>enhance</strong> colors and sharpness,
+          and keep all your tools under one modern, minimal interface.
+        </p>
 
-        <!-- FAQ + DESTEK FORMU -->
-        <section id="support">
-            <div class="section-inner">
-                <div class="section-header">
-                    <div class="section-title-block">
-                        <div class="section-kicker">Destek &amp; Güvenlik</div>
-                        <h2 class="section-title">Sorular, iade ve talepler</h2>
-                    </div>
-                    <p class="section-subtitle">
-                        Aşağıdaki form sadece bir örnektir. Veriler sunucu tarafında
-                        işlenmeli, hiçbir hassas bilgi (şifre, token vs.) client’ta açık
-                        tutulmamalıdır.
-                    </p>
-                </div>
+        <div class="hero-highlights">
+          <div class="hero-pill">
+            <div class="hero-pill-icon">🔍</div>
+            Mouse-position based dynamic zoom
+          </div>
+          <div class="hero-pill">
+            <div class="hero-pill-icon">🎨</div>
+            Color, contrast &amp; sharpness controls
+          </div>
+          <div class="hero-pill">
+            <div class="hero-pill-icon">🧩</div>
+            Designed for creators &amp; power users
+          </div>
+        </div>
 
-                <div class="contact-grid">
-                    <!-- FAQ -->
-                    <div class="faq">
-                        <div class="faq-list">
-                            <div class="faq-item">
-                                <div class="faq-q">Satın alırken verilerim güvende mi?</div>
-                                <div class="faq-a">
-                                    Tüm formlar sadece HTTPS üzerinden çalışmalı, ödeme ve
-                                    oyuncu bilgileri sunucu taraflı doğrulama ile işlenmelidir.
-                                    Front-end üzerinde hiçbir SQL, gizli anahtar veya kritik
-                                    bilgi tutulmaz.
-                                </div>
-                            </div>
-                            <div class="faq-item">
-                                <div class="faq-q">Karmix ne kadar sürede yüklenir?</div>
-                                <div class="faq-a">
-                                    Sunucu taraflı entegrasyonuna bağlı. Çoğu sistemde
-                                    ödeme sağlayıcısından “başarılı” dönüş alındıktan sonra
-                                    dakikalar içinde otomatik yükleme yapılır.
-                                </div>
-                            </div>
-                            <div class="faq-item">
-                                <div class="faq-q">Inspect ile verilerimi görebilir miyim?</div>
-                                <div class="faq-a">
-                                    Tarayıcı üzerinde giden isteği her zaman görebilirsin
-                                    (bu normaldir). Önemli olan, bu isteğin sunucu tarafında
-                                    tekrar kontrol edilmesi ve hiçbir gizli bilginin front-end’te
-                                    saklanmamasıdır.
-                                </div>
-                            </div>
-                            <div class="faq-item">
-                                <div class="faq-q">SQL Injection ve XSS’e karşı önlemler?</div>
-                                <div class="faq-a">
-                                    Front-end tarafı, kullanıcı girdisini DOM’a basarken
-                                    innerHTML yerine sadece text olarak işler. Back-end
-                                    tarafında ise parametreli sorgu, output encoding ve
-                                    güvenli framework kullanımı şarttır.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <div class="hero-actions">
+          <a href="https://chromewebstore.google.com/detail/es-video-zoom-enhancer/megmpaemadmdjgjpphjgkfbcfkgimkhh?hl=tr"
+            class="btn btn-primary" target="_blank" rel="noreferrer">
+            Install ES Video Zoom &amp; Enhancer
+            <span>↗</span>
+          </a>
+          <a href="#extensions" class="btn btn-ghost">
+            View all extensions
+          </a>
+        </div>
 
-                    <!-- Destek Formu -->
-                    <div class="contact-card">
-                        <h3>Destek Talebi</h3>
-                        <p>
-                            Ödeme, teslimat veya hesap doğrulama ile ilgili sorun yaşıyorsan
-                            formu doldurabilirsin. Tüm istekler sunucu tarafında işlenir.
-                        </p>
-
-                        <!-- ÖRNEK FORM: action ve endpoint backend tarafında güvenli şekilde yazılmalı -->
-                        <form id="supportForm" autocomplete="off" novalidate>
-                            <div class="contact-field-group">
-                                <div>
-                                    <label for="mcName">Minecraft Kullanıcı Adı</label>
-                                    <input id="mcName" name="mcName" type="text" required maxlength="32" />
-                                </div>
-                                <div>
-                                    <label for="email">E-posta Adresi</label>
-                                    <input id="email" name="email" type="email" required maxlength="128" />
-                                </div>
-                                <div>
-                                    <label for="topic">Konu</label>
-                                    <select id="topic" name="topic">
-                                        <option value="payment">Ödeme Sorunu</option>
-                                        <option value="delivery">Karmix / VIP Teslimat</option>
-                                        <option value="security">Güvenlik Bildirimi</option>
-                                        <option value="other">Diğer</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label for="message">Mesajın</label>
-                                    <textarea id="message" name="message" maxlength="1000"></textarea>
-                                </div>
-                            </div>
-
-                            <div class="contact-submit">
-                                <button type="submit">Destek Talebini Gönder</button>
-                            </div>
-                            <p class="contact-note" id="supportStatus"></p>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <div class="hero-note">
+          <span></span>
+          <p>Built by ES Special for people who pause, zoom, and fine-tune every frame.</p>
+        </div>
+      </div>
     </main>
 
-    <!-- FOOTER -->
-    <footer>
-        <div class="footer-inner">
-            <div>© <span id="year"></span> Karmix Store. Tüm hakları saklıdır.</div>
-            <div class="footer-links">
-                <span>Sunucu Adı: <strong>karmix.example.net</strong></span>
-                <span>İletişim: <strong>support@karmix.example.net</strong></span>
-            </div>
+    <!-- EXTENSIONS -->
+    <section id="extensions">
+      <div class="section-header">
+        <div class="section-title">
+          <span>Extensions</span>
+          <span>ES Special tools</span>
         </div>
+        <p class="section-desc">
+          Video zoom, enhancement and smart extension management – crafted as focused, minimal Chrome tools.
+        </p>
+      </div>
+
+      <div class="grid">
+        <!-- ES Video Zoom & Enhancer -->
+        <article class="card">
+          <div class="card-top">
+            <div class="card-icon">🔎</div>
+            <div>
+              <div class="card-title">ES Video Zoom &amp; Enhancer</div>
+              <div class="card-sub">Zoom + Color / Contrast panel</div>
+            </div>
+          </div>
+          <p class="card-body">
+            Zoom into any area of a video using your mouse position and tweak the look with a clean enhancement panel.
+            Perfect for tutorials, code walkthroughs, UI reviews, gaming and any situation where details matter.
+          </p>
+          <div class="card-tags">
+            <span class="tag">Mouse-based zoom</span>
+            <span class="tag">Sharpness &amp; contrast</span>
+            <span class="tag">Minimal two-tab UI</span>
+          </div>
+          <div class="card-footer">
+            <span>Optimized for detail-oriented viewers</span>
+            <a href="https://chromewebstore.google.com/detail/es-video-zoom-enhancer/megmpaemadmdjgjpphjgkfbcfkgimkhh?hl=tr"
+              target="_blank" rel="noreferrer">
+              Open in Chrome Web Store
+              <span>↗</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- ES Extension Manager -->
+        <article class="card">
+          <div class="card-top">
+            <div class="card-icon">🧱</div>
+            <div>
+              <div class="card-title">ES Extension Manager</div>
+              <div class="card-sub">Smart extension organization</div>
+            </div>
+          </div>
+          <p class="card-body">
+            A control center for all your Chrome extensions. Filter, categorize, favorite and quickly toggle tools on or
+            off
+            from a single glassmorphism-style dashboard.
+          </p>
+          <div class="card-tags">
+            <span class="tag">Filter &amp; categories</span>
+            <span class="tag">Favorites</span>
+            <span class="tag">Dark / light modes</span>
+          </div>
+          <div class="card-footer">
+            <span>Core hub for the ES ecosystem</span>
+            <a href="#" onclick="alert('Coming soon to the Chrome Web Store.'); return false;">
+              Coming soon
+              <span>★</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- ES Special Player -->
+        <article class="card">
+          <div class="card-top">
+            <div class="card-icon">▶️</div>
+            <div>
+              <div class="card-title">ES Zero Cookie</div>
+              <div class="card-sub">Standalone video player (planned)</div>
+            </div>
+          </div>
+          <p class="card-body">
+            Watch YouTube videos in a privacy-friendly way.Ideal for websites aiming to comply with GDPR and other
+            privacy regulations.
+          </p>
+          <div class="card-tags">
+            <span class="tag">Custom zoom presets</span>
+            <span class="tag">Focus modes</span>
+            <span class="tag">Experimental</span>
+          </div>
+          <div class="card-footer">
+            <span>On the roadmap • in design</span>
+            <a href="#contact">
+              Get launch updates
+              <span>→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Future experiments -->
+        <article class="card">
+          <div class="card-top">
+            <div class="card-icon">⚡</div>
+            <div>
+              <div class="card-title">ES Experiments</div>
+              <div class="card-sub">Prototype tools &amp; ideas</div>
+            </div>
+          </div>
+          <p class="card-body">
+            Small experimental tools that may evolve into full extensions – from frame analyzers to AI-assisted
+            zoom suggestions. Built fast, tested with real users, then refined.
+          </p>
+          <div class="card-tags">
+            <span class="tag">Prototypes</span>
+            <span class="tag">AI-assisted ideas</span>
+            <span class="tag">Fast iterations</span>
+          </div>
+          <div class="card-footer">
+            <span>Built in public with feedback</span>
+            <a href="#contact">
+              Suggest an idea
+              <span>✉</span>
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="section-header">
+        <div class="section-title">
+          <span>Who we are</span>
+          <span>About ES Special</span>
+        </div>
+        <p class="section-desc">
+          ES Special focuses on highly targeted Chrome extensions for video-centric workflows, built and maintained by
+          jeffestw.
+        </p>
+      </div>
+
+      <div class="about-layout">
+        <div class="about-text">
+          <p>
+            ES Special is a small extension studio created by <strong>jeffestw</strong>, focused on
+            tools for people who pause, zoom and analyze video frames every day – from developers and designers
+            to gamers and content creators.
+          </p>
+          <p>
+            The goal is simple: combine a <strong>clean, minimal UI</strong> with controls that feel like a
+            dedicated desktop app, but available directly in your browser as a Chrome extension.
+          </p>
+
+          <div class="about-highlight">
+            <div class="about-highlight-box">
+              <strong>What we build</strong>
+              Zoom + enhancer tools for video platforms, smart extension managers and experimental players
+              that give you more control without cluttering your browser.
+            </div>
+            <div class="about-highlight-box">
+              <strong>How we think</strong>
+              Every extension is designed around real use cases: reading tiny text, evaluating designs,
+              reviewing gameplay or debugging complex UIs.
+            </div>
+          </div>
+        </div>
+
+        <div class="about-card">
+          <div class="about-card-inner">
+            <div class="about-line">
+              <strong>“Less UI, more control.”</strong>
+              <span style="font-size:11px;color:var(--muted);">ES Special design principle</span>
+            </div>
+            <div class="about-chip-row">
+              <span class="about-chip">Chrome extensions</span>
+              <span class="about-chip">Video zoom &amp; enhancement</span>
+              <span class="about-chip">Modern glassmorphism UI</span>
+              <span class="about-chip">Built by jeffestw</span>
+            </div>
+            <div>
+              ES Special aims to give you small, focused tools that stay out of the way until you need them.
+              One click opens a smooth, glassy control panel – another click takes you back to your video.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="section-header">
+        <div class="section-title">
+          <span>Contact</span>
+          <span>Collaboration &amp; feedback</span>
+        </div>
+        <p class="section-desc">
+          Have an idea, bug report or feature request? Reach out directly and help shape the next ES Special tools.
+        </p>
+      </div>
+
+      <div class="about-layout">
+        <div class="about-text">
+          <p>
+            The extensions are actively maintained and improved. Real user feedback is what drives the roadmap:
+            every issue report or tiny suggestion can turn into a new toggle, slider or panel.
+          </p>
+          <p>
+            If you ever caught yourself thinking “I wish I could just zoom into this part of the video and sharpen it a
+            bit”,
+            ES Special is built exactly for that moment.
+          </p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-inner">
+            <div class="about-line">
+              <strong>Get in touch</strong>
+            </div>
+            <div class="about-chip-row">
+              <!-- Replace with your real email / profiles -->
+              <a class="about-chip" href="mailto:hello@esspecial.dev">sup.esspecial@gmail.com</a>
+              <a class="about-chip" href="https://chromewebstore.google.com/search/ES%20Video%20Zoom%20Enhancer"
+                target="_blank" rel="noreferrer">Chrome Web Store</a>
+            </div>
+            <div>
+              You can send short, technical feedback or longer feature ideas – both are welcome.
+              Screenshots, small recordings or step-by-step notes help a lot when improving the tools.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>© <span id="year"></span> ES Special. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="#extensions">Extensions</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
     </footer>
+  </div>
 
-    <!-- JS (XSS açısından güvenli kullanım için sadece text tabanlı işlemler) -->
-    <script>
-        // Yıl
-        document.getElementById("year").textContent = new Date().getFullYear().toString();
-
-        // Smooth scroll
-        function smoothScrollTo(target) {
-            const el = document.querySelector(target);
-            if (!el) return;
-            window.scrollTo({
-                top: el.offsetTop - 70,
-                behavior: "smooth"
-            });
-        }
-
-        // Navigation scroll buttonları
-        document.querySelectorAll("[data-scroll]").forEach(function (btn) {
-            btn.addEventListener("click", function () {
-                const target = btn.getAttribute("data-scroll");
-                smoothScrollTo(target);
-            });
-        });
-
-        // Mobile nav toggle
-        const navToggle = document.querySelector(".nav-toggle");
-        const navMobile = document.getElementById("navMobile");
-
-        navToggle.addEventListener("click", function () {
-            const isOpen = navMobile.style.display === "flex";
-            navMobile.style.display = isOpen ? "none" : "flex";
-        });
-
-        navMobile.querySelectorAll("a").forEach(function (link) {
-            link.addEventListener("click", function () {
-                navMobile.style.display = "none";
-            });
-        });
-
-        // Paket satın alma butonları: sadece form açma/simüle etme
-        document.querySelectorAll(".card button[data-package-id]").forEach(function (btn) {
-            btn.addEventListener("click", function () {
-                const pkgId = btn.getAttribute("data-package-id");
-                // Burada istersen bir modal açıp oyuncudan nickname vs. isteyebilirsin.
-                // ÖRNEK: sadece console.log ile gösteriyoruz.
-                console.log("Seçilen paket:", pkgId);
-
-                // Gerçek sistemde:
-                // - Modal formunda nickname, e-posta, paket id alınır.
-                // - Bu form, HTTPS ile backend endpoint'ine POST yapılır.
-                // - Sunucu tarafı veri doğrulama + parametreli SQL + ödeme entegrasyonu yapılır.
-            });
-        });
-
-        // Basit ve güvenli destek formu örneği
-        const supportForm = document.getElementById("supportForm");
-        const supportStatus = document.getElementById("supportStatus");
-
-        supportForm.addEventListener("submit", function (e) {
-            e.preventDefault();
-
-            // Basit front-end validasyon (güvenlik için yeterli değil, sadece UX)
-            const mcName = supportForm.mcName.value.trim();
-            const email = supportForm.email.value.trim();
-            const topic = supportForm.topic.value;
-            const message = supportForm.message.value.trim();
-
-            if (!mcName || !email) {
-                supportStatus.textContent = "Lütfen kullanıcı adı ve e-posta alanlarını doldurun.";
-                return;
-            }
-
-            // Kullanıcı girdilerini DOM'a basarken innerText/textContent kullanıyoruz,
-            // innerHTML ile çalışmıyoruz -> XSS riskini düşürür.
-            supportStatus.textContent = "Talebin işleniyor...";
-
-            // ÖRNEK: Gerçek endpoint yok. Burada göstermek için fetch simüle edilmektedir.
-            // Gerçek projede:
-            // fetch("/api/support", {
-            //     method: "POST",
-            //     headers: {
-            //         "Content-Type": "application/json"
-            //         // CSRF token vs. ekle
-            //     },
-            //     body: JSON.stringify({ mcName, email, topic, message })
-            // })
-            //     .then(r => r.json())
-            //     .then(data => {
-            //         supportStatus.textContent = "Talebin alındı. En kısa sürede dönüş yapılacaktır.";
-            //     })
-            //     .catch(() => {
-            //         supportStatus.textContent = "Bir hata oluştu. Lütfen daha sonra tekrar dene.";
-            //     });
-
-            // Şimdilik sadece “başarılı” mesajı verelim:
-            setTimeout(function () {
-                supportStatus.textContent = "Talebin alındı. En kısa sürede dönüş yapılacaktır.";
-                supportForm.reset();
-            }, 600);
-        });
-    </script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 
 </html>
